@@ -14,10 +14,11 @@ Należy wybrać ścieżkę do publikacji (Folder) oraz zaznaczyć typ RELEASE (n
 Opcjonalnie wybrać opcję "Show all settings" i tam zaznaczyć "Deployment mode - Self-contained". Dzięki temu plik będzie ważył więcej, ale będzie możliwy do użycia na innym PC.
 
 Jeśli wykonano opcję wyżej to KONIECZNIE dodać: File publish options - Produce Single File [V]
+![image](https://github.com/user-attachments/assets/37ba64bc-721e-415c-801a-cb88212ef4d8)
+![image](https://github.com/user-attachments/assets/9798193b-7c92-4f23-8c5c-59fd53475e57)
 
 Ostatecznie opcja PUBLISH wyprodukuje plik exe, a przycisk navigate przekieruje do niego.
 
 Opcjolanie można użyć komendy `dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true`, aby zbudować plik EXE.
 
 Jego wynik znajduje się wtedy w `bin\Release\netX\win-x64\publish`
-
