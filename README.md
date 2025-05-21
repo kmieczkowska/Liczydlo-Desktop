@@ -8,11 +8,16 @@
 Plik excel stworzono w następujący sposób:
 
 Zakładka Build -> Publish Selection
+
 Należy wybrać ścieżkę do publikacji (Folder) oraz zaznaczyć typ RELEASE (nie debug).
+
 Opcjonalnie wybrać opcję "Show all settings" i tam zaznaczyć "Deployment mode - Self-contained". Dzięki temu plik będzie ważył więcej, ale będzie możliwy do użycia na innym PC.
+
 Jeśli wykonano opcję wyżej to KONIECZNIE dodać: File publish options - Produce Single File [V]
+
 Ostatecznie opcja PUBLISH wyprodukuje plik exe, a przycisk navigate przekieruje do niego.
 
 Opcjolanie można użyć komendy `dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true`, aby zbudować plik EXE.
+
 Jego wynik znajduje się wtedy w `bin\Release\netX\win-x64\publish`
 
