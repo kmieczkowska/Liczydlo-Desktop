@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("liczydlo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8aea414cffd61f27bc2918400f6ad8f4c3819ec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bf2ea654fa1e9414f675656b1664be13947abc9f")]
 [assembly: System.Reflection.AssemblyProductAttribute("liczydlo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("liczydlo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
