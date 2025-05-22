@@ -75,42 +75,83 @@ namespace liczydlo
                 var data1 = LoadExcelToDictionary(filePath1);
                 var data2 = LoadExcelToDictionary(filePath2);
 
-                // scalona lista wszystkich kolumn
-                var allColumns = new HashSet<string>(data1.Values.SelectMany(d => d.Keys));
-                allColumns.UnionWith(data2.Values.SelectMany(d => d.Keys));
-
-                // scalona lista osób
                 var allPeople = new HashSet<string>(data1.Keys);
                 allPeople.UnionWith(data2.Keys);
 
-                // przygotuj DataTable
+                var allColumns = new HashSet<string>(
+                    data1.Values.SelectMany(d => d.Keys)
+                    .Concat(data2.Values.SelectMany(d => d.Keys))
+                );
+
+                // usuñ kolumny ID
+                var idsToRemove = allColumns.Where(c => c.ToLower() == "id").ToList();
+                foreach (var col in idsToRemove)
+                    allColumns.Remove(col);
+
                 DataTable mergedTable = new DataTable();
-                mergedTable.Columns.Add("Imiê + nazwisko");
+                mergedTable.Columns.Add("ID");
+                mergedTable.Columns.Add("Name");
 
                 foreach (var col in allColumns)
-                    mergedTable.Columns.Add(col);
+                {
+                    if (col.Equals("title", StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!mergedTable.Columns.Contains("Title1"))
+                            mergedTable.Columns.Add("Title1");
+                        if (!mergedTable.Columns.Contains("Title2"))
+                            mergedTable.Columns.Add("Title2");
+                    }
+                    else
+                    {
+                        mergedTable.Columns.Add(col);
+                    }
+                }
 
-                foreach (var person in allPeople)
+                int idCounter = 0;
+                foreach (var person in allPeople.OrderBy(p => p))
                 {
                     var row = mergedTable.NewRow();
-                    row["Imiê + nazwisko"] = person;
+                    row["ID"] = idCounter++.ToString();
+                    row["Name"] = person;
+
+                    void WstawDane(Dictionary<string, string> dane)
+                    {
+                        foreach (var kvp in dane)
+                        {
+                            string key = kvp.Key.Trim();
+                            string value = kvp.Value?.Trim();
+
+                            if (idsToRemove.Contains(key)) continue;
+
+                            if (key.Equals("title", StringComparison.OrdinalIgnoreCase))
+                            {
+                                if (!string.IsNullOrEmpty(value))
+                                {
+                                    if (value.Length <= 12)
+                                        row["Title1"] = value;
+                                    else
+                                        row["Title2"] = value;
+                                }
+                            }
+                            else
+                            {
+                                row[key] = value;
+                            }
+                        }
+                    }
 
                     if (data1.ContainsKey(person))
-                        foreach (var kvp in data1[person])
-                            row[kvp.Key] = kvp.Value;
-
+                        WstawDane(data1[person]);
                     if (data2.ContainsKey(person))
-                        foreach (var kvp in data2[person])
-                            row[kvp.Key] = kvp.Value;
+                        WstawDane(data2[person]);
 
                     mergedTable.Rows.Add(row);
                 }
 
-                // zapisz do Excela
                 SaveFileDialog sfd = new SaveFileDialog();
-                var longFilePath = sfd.FileName;
                 sfd.Filter = "Excel Workbook|*.xlsx";
                 sfd.FileName = "Scalony.xlsx";
+
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     using (var wb = new XLWorkbook())
@@ -119,9 +160,10 @@ namespace liczydlo
                         ws.Cell(1, 1).InsertTable(mergedTable);
                         wb.SaveAs(sfd.FileName);
                     }
-                    pathLabel.ForeColor = Color.DeepPink;
+
                     pathLabel.Text = sfd.FileName;
-                    MessageBox.Show("Saclanie plików powiod³o siê", "Dziunia, to dzia³a");
+                    pathLabel.ForeColor = Color.DeepPink;
+                    MessageBox.Show("Scalanie zakoñczone sukcesem", "Sukces");
                 }
             }
             catch (Exception ex)
@@ -129,6 +171,7 @@ namespace liczydlo
                 MessageBox.Show("B³¹d: " + ex.Message);
             }
         }
+
 
         // funkcja pomocnicza - ³adowanie Excela do s³ownika
         private Dictionary<string, Dictionary<string, string>> LoadExcelToDictionary(string path)
@@ -139,19 +182,31 @@ namespace liczydlo
             {
                 var ws = wb.Worksheet(1);
                 var rows = ws.RangeUsed().RowsUsed().ToList();
-                var headers = rows[0].Cells().Select(c => c.Value.ToString()).ToList();
+                if (rows.Count == 0) return dict;
+
+                var headers = rows[0].Cells().Select(c => c.Value.ToString().Trim()).ToList();
+
+                // znajdŸ indeks kolumny Name lub Submitter
+                int nameIndex = headers.FindIndex(h => h.Equals("Name", StringComparison.OrdinalIgnoreCase)
+                                                     || h.Equals("Submitter", StringComparison.OrdinalIgnoreCase));
+                if (nameIndex == -1)
+                    throw new Exception("Nie znaleziono kolumny Name lub Submitter");
 
                 for (int i = 1; i < rows.Count; i++)
                 {
                     var cells = rows[i].Cells().Select(c => c.Value.ToString()).ToList();
-                    if (cells.Count == 0) continue;
+                    if (cells.Count <= nameIndex) continue;
 
-                    string key = cells[0]; // Imiê + nazwisko
+                    string key = cells[nameIndex].Trim();
+                    if (string.IsNullOrWhiteSpace(key)) continue;
+
                     var innerDict = new Dictionary<string, string>();
-
-                    for (int j = 1; j < headers.Count && j < cells.Count; j++)
+                    for (int j = 0; j < headers.Count && j < cells.Count; j++)
                     {
-                        innerDict[headers[j]] = cells[j];
+                        if (j == nameIndex) continue;
+                        var header = headers[j];
+                        if (!string.IsNullOrWhiteSpace(header))
+                            innerDict[header.Trim()] = cells[j];
                     }
 
                     dict[key] = innerDict;
@@ -160,6 +215,7 @@ namespace liczydlo
 
             return dict;
         }
+
 
         //private void pathLabel_Click(object sender, EventArgs e)
         //{
