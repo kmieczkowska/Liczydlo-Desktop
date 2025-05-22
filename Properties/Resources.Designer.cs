@@ -59,5 +59,15 @@ namespace liczydlo.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] cat {
+            get {
+                object obj = ResourceManager.GetObject("cat", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

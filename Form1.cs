@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
@@ -18,7 +19,10 @@ namespace liczydlo
             InitializeComponent();
             openCatalogButton.Visible = false;
             openNewFileButton.Visible = false;
-            pictureBox1.Image = Image.FromFile("C:\\Users\\klaud\\Downloads\\cat.png");
+            using (var ms = new MemoryStream(Properties.Resources.cat))
+            {
+                pictureBox1.Image = Image.FromStream(ms);
+            }
             toolTip1.SetToolTip(button1, "To bêdzie plik bazowy");
             toolTip1.SetToolTip(button2, "Ten plik do³¹czysz do bazowego - jeœli ma nowe kolumny, to bêd¹ na koñcu");
             toolTip1.SetToolTip(button3, "Scalenie dwóch plików, zada pytanie gdzie zapisaæ scalony plik");
