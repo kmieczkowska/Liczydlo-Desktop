@@ -162,7 +162,7 @@
             // 
             pictureBox1.Location = new Point(550, 12);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(304, 271);
+            pictureBox1.Size = new Size(304, 250);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 14;
             pictureBox1.TabStop = false;
@@ -177,7 +177,7 @@
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Name = "Form1";
-            Text = "Dziuniowe liczydło";
+            Text = "Liczydło";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);

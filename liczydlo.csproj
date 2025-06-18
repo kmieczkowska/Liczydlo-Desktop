@@ -6,6 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Company>Klaudia Mieczkowska</Company>
+    <Authors>Klaudia Mieczkowska</Authors>
+    <Product>Liczydło Excelowe</Product>
+    <Description>Aplikacja do scalania plików Excel</Description>
+    <Copyright>Copyright © Klaudia Mieczkowska 2025</Copyright>
+    <AssemblyTitle>Liczydło</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>

@@ -28,6 +28,7 @@ namespace liczydlo
             toolTip1.SetToolTip(button3, "Scalenie dwóch plików, zada pytanie gdzie zapisaæ scalony plik");
             toolTip1.SetToolTip(button2, "Otwiera folder z nowym plikiem");
             toolTip1.SetToolTip(button2, "Otwiera nowy plik w aplikacji Excel");
+            toolTip1.SetToolTip(pictureBox1, "Implementacja: Klaudia Mieczkowska");
 
         }
 
@@ -188,9 +189,9 @@ namespace liczydlo
 
                 // znajdŸ indeks kolumny Name lub Submitter
                 int nameIndex = headers.FindIndex(h => h.Equals("Name", StringComparison.OrdinalIgnoreCase)
-                                                     || h.Equals("Submitter", StringComparison.OrdinalIgnoreCase));
+                                                     || h.Equals("Speakers", StringComparison.OrdinalIgnoreCase));
                 if (nameIndex == -1)
-                    throw new Exception("Nie znaleziono kolumny Name lub Submitter");
+                    throw new Exception("Nie znaleziono kolumny Name lub Speakers");
 
                 for (int i = 1; i < rows.Count; i++)
                 {

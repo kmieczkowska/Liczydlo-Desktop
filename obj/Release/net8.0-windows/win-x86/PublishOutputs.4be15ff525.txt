@@ -1,0 +1,7 @@
+F:\AGAXCEL\liczydlo\published\liczydlo.pdb
+F:\AGAXCEL\liczydlo\published\D3DCompiler_47_cor3.dll
+F:\AGAXCEL\liczydlo\published\PenImc_cor3.dll
+F:\AGAXCEL\liczydlo\published\PresentationNative_cor3.dll
+F:\AGAXCEL\liczydlo\published\vcruntime140_cor3.dll
+F:\AGAXCEL\liczydlo\published\wpfgfx_cor3.dll
+F:\AGAXCEL\liczydlo\published\liczydlo.exe
